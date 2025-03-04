@@ -19,10 +19,10 @@ def validate_directory_xlsx_only(directory: str) -> None:
 
     invalid_files = []
 
+    prohibited_ext = {".xls", ".xlsb", ".xlsm"}
     for entry in target_dir.iterdir():
-        if entry.is_file():
-            if entry.suffix.lower() != ".xlsx":
-                invalid_files.append(entry.name)
+        if entry.is_file() and entry.suffix.lower() in prohibited_ext:
+            invalid_files.append(entry.name)
 
     if invalid_files:
-        raise InvalidFileExtensionError(invalid_files)
+        raise ValueError(f"許可されていないファイル形式が検出されました: {invalid_files}")
